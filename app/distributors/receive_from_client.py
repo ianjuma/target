@@ -25,7 +25,6 @@ from app import send_notification_task
 
 @app.route('/oauthCallBack/', methods=['POST'])
 def getTasks():
-
     if request.method != 'POST':
         if not request.json:
             abort(400)
@@ -33,13 +32,11 @@ def getTasks():
         if request.headers['Content-Type'] != 'application/json; charset=UTF-8':
             abort(400)
 
-        text = request.json.get('text')
+        text = request.json
+        sender = request.json.get('from')
 
         try:
-            tasks = r.table('Tasks').filter({"username": username}).run(g.rdb_conn)
-            for data in tasks:
-                taskData.append(data)
-
+            tasks = r.table('Client').get(sender).update(text).run(g.rdb_conn)
         except RqlError:
             logging.warning('DB code verify failed on /api/getTasks/')
 
