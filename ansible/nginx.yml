@@ -1,0 +1,38 @@
+---
+- hosts: droplets
+
+  vars_files:
+    - vars/main.yml
+
+  remote_user: root
+
+  tasks:
+   - name: Add Nginx repository
+     apt_repository: repo='ppa:nginx/stable' state=present
+     register: ppastable
+
+   - name: Install Nginx
+     apt: pkg=nginx state=installed update_cache=true
+     when: ppastable|success
+     register: nginxinstalled
+     notify:
+      - Start Nginx
+
+   - name: Ensure nginx is at the latest version
+     apt: pkg=nginx state=latest update_cache=true
+
+   - name: Write Nginx conf
+     template: src=templates/nginx.j2 dest=/etc/nginx.conf
+     notify:
+      - Restart nginx
+
+   - name: Ensure nginx is running
+     service: name=nginx state=started
+
+
+  handlers:
+   - name: Restart nginx
+     service: name=nginx state=restarted
+
+   - name: Start Nginx
+     service: name=nginx state=started

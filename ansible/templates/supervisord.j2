@@ -1,0 +1,31 @@
+[program:TaskWetu]
+directory=/tmp/TaskWetu/taskwetu/
+command=gunicorn -c config-gunicorn.py app:app
+autostart=true
+autorestart=true
+stdout_logfile=/var/log/supervisord/takwetu-stdout.log
+stderr_logfile=/var/log/supervisord/taskwetu-stderr.log
+
+[program:Celery]
+directory=/tmp/TaskWetu/taskwetu/
+command=celery -A app.celery worker --loglevel=INFO --concurrency=10
+autostart=true
+autorestart=true
+stdout_logfile=/var/log/supervisord/celery-stdout.log
+stderr_logfile=/var/log/supervisord/celery-stderr.log
+
+[supervisord]
+logfile = /tmp/supervisord.log
+logfile_maxbytes = 50MB
+logfile_backups=10
+loglevel = info
+pidfile = /tmp/supervisord.pid
+nodaemon = false
+minfds = 1024
+minprocs = 200
+umask = 022
+identifier = supervisor
+directory = /tmp
+nocleanup = true
+childlogdir = /tmp
+strip_ansi = false

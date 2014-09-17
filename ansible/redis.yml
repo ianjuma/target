@@ -1,0 +1,22 @@
+---
+- hosts: droplets
+
+  vars_files:
+    - vars/main.yml
+
+  remote_user: root
+  tasks:
+  - name: Ensure redis is latest ver
+    apt: pkg=redis-server state=latest
+
+  - name: Write redis conf
+    template: src=templates/redis.j2 dest=/etc/redis/redis.conf
+    notify:
+    - Restart redis
+
+  - name: Ensure redis is running
+    service: name=redis-server state=running
+
+  handlers:
+    - name: Restart redis
+      service: name=redis-server state=restarted

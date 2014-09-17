@@ -1,0 +1,34 @@
+---
+- hosts: dbservers
+
+  vars_files:
+    - vars/main.yml
+
+  remote_user: root
+  tasks:
+  - name: Add rethinkdb repo
+    apt_repository: repo='ppa:rethinkdb/stable' state=present
+    register: ppastable
+
+  - name: Install rethinkdb
+    apt: pkg=nginx state=installed update_cache=true
+    when: ppastable|success
+    register: nginxinstalled
+    notify:
+    - state rethinkdb
+
+  - name: ensure rethinkdb is at the latest version
+    when: ppastable|success
+    apt: pkg=rethinkdb state=latest
+
+  - name: write the rethinkdb config file
+    template: src=templates/rethinkdb.j2 dest=/etc/rethinkdb/instances.d/instance1.conf
+    notify:
+    - restart rethinkdb
+
+  - name: start rethinkdb
+    service: name=rethinkdb state=started
+
+  handlers:
+    - name: restart rethinkdb
+      service: name=rethinkdb state=restarted
