@@ -1,11 +1,7 @@
-from fabric.api import *
+from fabric.api import (run, cd, local, env)
 
-env.user = 'root'
-env.hosts = ['188.226.195.158']
-
-
-def moveSupervisor():
-    run('mv /tmp/TaskWetu/taskwetu/supervisord.conf /etc/supervisord.conf')
+env.user = 'target'
+env.hosts = ['178.62.249.236']
 
 
 def setSupervisordLog():
@@ -38,25 +34,6 @@ def setup_server(version):
             #prepare_deploy()
 
 
-def clean():
-    run('rm -r /tmp/TaskWetu')
-
-
-def backUp():
-    run('rethinkdb-dump -a taskwetu_db**//')
-
-
-def installDeps():
-    run('apt-get install redis')
-    run('apt-get install rabbitmq-server')
-    run('apt-get install rethinkdb')
-
-
-def mvStatic():
-    run('rm -rf /www/data/static')
-    run('mv /tmp/TaskWetu/taskwetu/app/static /www/data/')
-
-
 def prepare_deploy():
     run("apt-get update && apt-get -y dist-upgrade")
     run('apt-get clean && apt-get autoremove --purge --assume-yes')
@@ -68,7 +45,5 @@ def restartNginx():
 
 def deploy(version):
     setup_server(version)
-    #moveSupervisor()
-    mvStatic()
     supervisor()
     restartNginx()
