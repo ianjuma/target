@@ -6,14 +6,9 @@ SECRET_KEY = "I\xf9\x9cF\x1e\x04\xe6\xfaF\x8f\xe6)-\xa432"
 CSRF_ENABLED = True
 CSRF_SESSION_LKEY = 'dev_key_h8asSNJ9s9=+'
 THREADED = False
-ONLINE_LAST_MINUTES = 720
+ONLINE_LAST_MINUTES = 10
 __version__ = '0.0.1'
-
-
 salt = 'd40037e1ff7841838235533d910bbf24'
-
-
-contact_number = "+254719784245"
 
 # sms API key
 username = "IanJuma"
