@@ -4,12 +4,8 @@ env.user = 'target'
 env.hosts = ['178.62.249.236']
 
 
-def setSupervisordLog():
-    run('mkdir /var/log/supervisord/')
-
-
 def startCelery():
-    run('celery -A app.celery worker --loglevel=INFO --concurrency=10')
+    run('celery -A app.celery worker --loglevel=INFO --concurrency=10 &')
 
 
 def supervisor():
@@ -22,16 +18,16 @@ def supervisor():
 
 def setup_server(version):
     run('pty=False')
-    run('mkdir /tmp/TaskWetu')
-    with cd('/tmp/TaskWetu'):
-        run('git clone https://github.com/nailab/taskwetu.git')
+    run('mkdir /tmp/Target')
+    with cd('/tmp/Target'):
+        run('git clone https://github.com/ianjuma/target.git')
         with cd('/tmp/TaskWetu/taskwetu'):
             run('git checkout tags/%s' % (version,))
             result = run('pip install -r requirements.txt')
             if result.failed:
                 local('GUNICORN failed')
-
-            #prepare_deploy()
+            else:
+                startCelery()
 
 
 def prepare_deploy():
