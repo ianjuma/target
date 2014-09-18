@@ -29,7 +29,7 @@ app.permanent_session_lifetime = timedelta(minutes=5760)
 
 
 from celery import Celery
-from crons.AfricasTalkingGateway import (
+from lib.AfricasTalkingGateway import (
     AfricasTalkingGateway, AfricasTalkingGatewayException)
 
 celery = Celery('tasks', broker=settings.redis_broker)
