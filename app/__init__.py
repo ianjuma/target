@@ -1,38 +1,37 @@
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 from flask import Flask
 from flask import g
 from flask import abort
 
+import rethinkdb as r
+from rethinkdb import (RqlRuntimeError, RqlDriverError, RqlError)
+
+from celery import Celery
+from lib.AfricasTalkingGateway import (
+    AfricasTalkingGateway, AfricasTalkingGatewayException)
+from datetime import timedelta
+
 import logging
 import settings
+import redis
+
 
 version = settings.__version__
 
 app = Flask('app')
 app.config.from_pyfile('settings.py', silent=True)
 
-import rethinkdb as r
-from rethinkdb import (RqlRuntimeError, RqlDriverError, RqlError)
 
-import redis
 red = redis.StrictRedis(host='localhost', port=6379, db=0)
-
 logging.basicConfig(filename='Target.log', level=logging.DEBUG)
 salt = settings.salt
-
 app.config['ONLINE_LAST_MINUTES'] = settings.ONLINE_LAST_MINUTES
 app.secret_key = settings.SECRET_KEY
 
-from datetime import timedelta
-app.permanent_session_lifetime = timedelta(minutes=5760)
-
-
-from celery import Celery
-from lib.AfricasTalkingGateway import (
-    AfricasTalkingGateway, AfricasTalkingGatewayException)
-
 celery = Celery('tasks', broker=settings.redis_broker)
+app.permanent_session_lifetime = timedelta(minutes=5760)
 
 
 @celery.task(ignore_result=True)

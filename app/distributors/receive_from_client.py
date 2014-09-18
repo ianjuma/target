@@ -1,16 +1,13 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
 
-# res/ rep cycle
-
+from flask import request
 from app import app
 from app import r
 from app import g
 from app import logging
 from app import red
 from app import RqlError
-from flask import request
-
 
 from app import welcomeMessage
 from app import send_notification_task

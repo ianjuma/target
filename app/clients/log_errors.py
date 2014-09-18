@@ -1,7 +1,6 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
 
-# res/ rep cycle
 from app import app
 
 from flask import (render_template)
@@ -12,7 +11,8 @@ from flask import jsonify
 # Basic Error handlers
 @app.errorhandler(404)
 def resource_not_found(e):
-    return render_template('404.html'), 404
+    return make_response(jsonify({"Error 404":
+                                  "Not Found"}), 404)
 
 
 @app.errorhandler(400)
@@ -23,7 +23,8 @@ def bad_request(e):
 
 @app.errorhandler(500)
 def internal_error(e):
-    return render_template('500.html'), 500
+    return make_response(jsonify({"Error 500":
+                                  "Internal Server Error"}), 500)
 
 
 @app.errorhandler(408)

@@ -16,3 +16,7 @@ from flask import abort, request
 
 def addCredit():
     pass
+
+
+def buyFromWallet():
+    pass
