@@ -1,7 +1,7 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from flask import request
+from flask import (request, abort, jsonify, make_response)
 from app import app
 from app import r
 from app import g
@@ -23,14 +23,11 @@ from app import send_notification_task
 @app.route('/oauthCallBack/', methods=['POST'])
 def getTasks():
     if request.method is 'POST':
-        if not request.json:
+        if request.headers['Content-Type'] != 'text/plain':
             abort(400)
 
-        if request.headers['Content-Type'] != 'application/json; charset=UTF-8':
-            abort(400)
-
-        text = request.json
-        sender = request.json.get('from')
+        text = request.data
+        sender = request.args.get('from')
 
         try:
             tasks = r.table('Client').get(sender).update(text).run(g.rdb_conn)
@@ -42,7 +39,7 @@ def getTasks():
             resp.cache_control.no_cache = True
             return resp
 
-        resp = make_response(taskData, 200)
+        resp = make_response(tasks, 200)
         resp.headers['Content-Type'] = "application/json"
         resp.cache_control.no_cache = True
         return resp
