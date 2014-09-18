@@ -22,7 +22,7 @@ from app import send_notification_task
 
 @app.route('/oauthCallBack/', methods=['POST'])
 def getTasks():
-    if request.method != 'POST':
+    if request.method is 'POST':
         if not request.json:
             abort(400)
 
@@ -46,3 +46,7 @@ def getTasks():
         resp.headers['Content-Type'] = "application/json"
         resp.cache_control.no_cache = True
         return resp
+
+
+def receivePayment():
+    pass

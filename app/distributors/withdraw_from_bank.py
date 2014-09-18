@@ -1,8 +1,6 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
 
-# res/ rep cycle
-
 from app import app
 from app import r
 from app import g
