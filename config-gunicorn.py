@@ -9,9 +9,11 @@ def numCPUs():
     return os.sysconf('SC_NPROCESSORS_ONLN')
 
 
+use = 'app:app'
 bind = '127.0.0.1:8000'
-workers = (numCPUs() + 1)
+workers = (numCPUs() * 2 + 1)
 worker_class = 'gevent'
+backlog = 2048
 debug = False
 daemon = True
 pidfile = '/tmp/gunicorn-target.pid'
@@ -19,7 +21,9 @@ logfile = '/tmp/gunicorn-target.log'
 accesslog = '/tmp/gunicorn-target-access.log'
 preload = True
 graceful_timeout = 30
+timeout = 60
 proc_name = 'gunicorn-target'
+proxy_protocol = False
 spew = True
 worker_connections = 1000
 keepalive = 2
