@@ -1,5 +1,5 @@
 ---
-- hosts: all
+- hosts: target
 
   remote_user: root
   tasks:

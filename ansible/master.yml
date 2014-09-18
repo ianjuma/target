@@ -1,5 +1,5 @@
 ---
-- hosts: all
+- hosts: target
   roles:
     - buildtools
     - redis
@@ -7,11 +7,11 @@
     - iptables
     - newrelic
 
-- hosts: dbserver
+- hosts: target-dbserver
   roles:
     - rethinkdb
 
-- hosts: webserver
+- hosts: target-webserver
   roles:
     - nginx
     - celery
