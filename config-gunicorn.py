@@ -10,7 +10,7 @@ def numCPUs():
 
 
 bind = '127.0.0.1:8000'
-workers = ( numCPUs() + 1 )
+workers = (numCPUs() + 1)
 worker_class = 'gevent'
 debug = False
 daemon = True
