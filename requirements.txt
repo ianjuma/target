@@ -11,5 +11,4 @@ gunicorn==19.0.0
 psycopg2==2.5.3
 sendgrid==0.5.3
 simplejson==3.6.2
-python-social-auth==0.1.26
 uWSGI==2.0.7
