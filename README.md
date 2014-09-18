@@ -6,7 +6,7 @@ Target RESTful API - USSD
 
 ### USSD session
 - [x] Add Separate conf file
-- [x] postgres DB scripts
+- [x] postgres DB migration
 - [x] Integrate USSD sessions (AfricaIT)
 - [x] Email notifications Sendgrid
 - [x] defined exceptions - DBError
