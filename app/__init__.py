@@ -13,7 +13,7 @@ app = Flask('app')
 app.config.from_pyfile('settings.py', silent=True)
 
 import rethinkdb as r
-from rethinkdb import (RqlRuntimeError, RqlDriverError)
+from rethinkdb import (RqlRuntimeError, RqlDriverError, RqlError)
 
 import redis
 red = redis.StrictRedis(host='localhost', port=6379, db=0)
