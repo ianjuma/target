@@ -21,5 +21,5 @@ Target RESTful API - USSD
 - [x] fix email API - message(bg tasks)
 - [x] Validation
 - [x] URL routes - remove name/RESTfull
-- [ ] sessions with redis
+- [x] sessions with redis
 - [ ] in-app metrics
