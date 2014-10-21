@@ -17,7 +17,7 @@ Target RESTful API - USSD
 
 ### Development
 - [ ] Static Assets (CDN) - minimise + compress, gzip
-- [ ] setup nginx- server static assets
+- [x] setup nginx- server static assets
 - [x] fix email API - message(bg tasks)
 - [x] Validation
 - [x] URL routes - remove name/RESTfull
